@@ -72,7 +72,7 @@ Java Interpreter | JIT Complier
 
 ## JDK와 JRE의 차이
 
-JDK(Java Developement Kit): 자바 programming할 때 필요
+JDK(Java Developement Kit): 자바 programming할 때 필요 \
 JRE(Java Runtime Environment): 자바를 실행할 때 필요
 
 ---
