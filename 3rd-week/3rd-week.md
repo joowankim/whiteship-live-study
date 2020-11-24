@@ -8,8 +8,8 @@
 
 Operator | Name | Description | Example
 ---|---|---|---
-+ | Addition | Adds together two values | x + y
-- | Subtraction | Subtracts one value from another | x - y
+\+ | Addition | Adds together two values | x + y
+\- | Subtraction | Subtracts one value from another | x - y
 \* | Multiplication | Multiplies two values | x \* y
 / | Division | Divides one value by another | x / y
 % | Modulus | Returns the division remainder | x % y
@@ -20,8 +20,8 @@ Operator | Name | Description | Example
 
 Operator | Name | Description | Example
 ---|---|---|---
-+ | Positive | Represents a positive value | +x
-- | Negative | Represents a negative value | -x
+\+ | Positive | Represents a positive value | +x
+\- | Negative | Represents a negative value | -x
 ++| Increment | Increases the value of a variable by 1 | ++x
 -- | Decrement | Decreases the value of a variable by 1 | --x
 
@@ -249,7 +249,7 @@ interface Movable{
 
 물론 어노테이션이 없어도 함수형 인터페이스라면 람다 표현식으로 표현이 가능하지만 어노테이션을 통해 함수형 인터페이스임을 알리는 게 좋다.
 
-### 행위 파라미터화
+### 행위의 파라미터화
 
 데이터만 매개변수로 전달하는 것이 아닌 행위(함수) 자체를 매개변수로 전달할 수 있다.
 
