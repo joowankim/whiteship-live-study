@@ -184,15 +184,169 @@ b instanceof B          // true
 > Java 8에서 새로 등장한 feature, lambda function. \
 > 화살표 연산자는 lambda 함수를 정의하기 위해 사용된다.
 
-`(Lambda parameters) -> {LambdaBody}`
+`(Lambda parameters) -> Lambda Body`
 
 - Lambda Parameters : 람다 함수로 넘겨지는 파라미터
 - Lambda Body : a code block or an expression
 
-람다 함수는 함수 자체를 method의 인수로 처리하거나 코드를 데이터로 처리할 수 있게 해준다.
+### 람다(Lambda)
+
+코드를 간결하게 만든다.
+
+> 람다의 핵심은 지울 수 있는 건 모두 지우자는 것이다. 모든 걸 컴파일러의 추론에 의지하고 코드로 표현하는 건 다 없애버려 코드를 간결하게 만드는 것이다.
+
+```java
+interface Movable{
+    void move(String str);
+}
+```
+
+```java
+// 재사용성의 필요를 느끼지 못할 때 익명클래스를 통해 구현되는 Movable
+Movable movable = new Movable(){
+    @Override
+    public void move(String str){
+        System.out.println("move move " + str);
+    }
+};
+```
+
+컴파일러의 추론에 맞길 수 있는 부분들
+
+1. 이미 대상 타입(Target Type)에서 `Movable`이라고 명시했기 때문에 `new Movable()` 부분은 없어도 컴파일러가 추론할 수 있다
+2. 구현해야 하는 부분은 `move` 메소드 뿐이다. 구현해야할 메소드가 하나 뿐이라면 메소드의 명칭은 중요하지 않다 (익명)
+3. 이미 초기화된 인자는 컴파일러가 추론할 수 있을 것이다
+
+위 부분들을 토대로 위 익명클래스를 람다 표현식으로 고쳐보면
+
+```java
+Movable movable = (str) -> {
+    System.out.println("move move " + str);
+};
+```
+
+좀 더 간결하게 할 수 있지 않을까
+
+1. 인자가 1개 일 땐, 괄호를 생략해도 되지 않을까
+2. 실행 구문이 1줄 일 땐, 중괄호를 생략해도 되지 않을까
+
+```java
+Movable movable = str -> System.out.println("move move" + str);
+```
+
+### 함수형 인터페이스
+
+위 예제에서 람다 표현식의 정체는 **구현해야하는 추상 메소드가 1개인 인터페이스를 구현한 익명클래스의 메소드**였다. 추상 메소드가 2개인 인터페이스에 대해서는 람다 표현식을 지원하지 않는다. 따라서 람다 표현식으로 구현이 가능한 인터페이스는 **오직 추상 메소드가 하나인 인터페이스** 뿐이다. 해당 인터페이스를 부르는 명칭이 **함수형 인터페이스**이다.
+
+Java 8에서는 `@FunctionalInterface` 어노테이션을 제공해 함수형 인터페이스 임을 표시할 수 있도록 지원한다. 이를 이용해 어떤 인터페이스가 함수형 인터페이스인지를 코드에 표시하여 함수형 인터페이스의 추상 메소드가 1개가 아닐 경우 컴파일 에러를 내도록 의도할 수 있다.
+
+```java
+@FunctionalInterface
+interface Movable{
+    void move(String str);
+}
+```
+
+물론 어노테이션이 없어도 함수형 인터페이스라면 람다 표현식으로 표현이 가능하지만 어노테이션을 통해 함수형 인터페이스임을 알리는 게 좋다.
+
+### 행위 파라미터화
+
+데이터만 매개변수로 전달하는 것이 아닌 행위(함수) 자체를 매개변수로 전달할 수 있다.
+
+```java
+// Fruit class
+class Fruit{
+    private String name;
+    private String color;
+
+    Fruit(String name, String color){
+        this.name = name;
+        this.color = color;
+    }
+
+    String getName(){
+        return this.name;
+    }
+
+    String getColor(){
+        return this.color;
+    }
+}
+```
+
+```java
+// 특정 조건을 만족하는 Fruit 인스턴스 리스트를 반환하는 함수들
+// 1. name이 'apple'인 Fruit 인스턴스 리스트를 반환하는 함수
+List<Fruit> extractApple(List<Fruit> fruits){
+    List<Fruit> resultList = new ArrayList<>();
+    for (Fruit fruit: fruits){
+        if ("apple".equals(fruit.getName())){
+            resultList.add(fruit);
+        }
+    }
+    return resultList;
+}
+
+// 2. color가 'red'인 Fruit 인스턴스 리스트를 반환하는 함수
+List<Fruit> extractRed(List<Fruit> fruits){
+    List<Fruit> resultList = new ArrayList<>();
+    for (Fruit fruit: fruits){
+        if ("red".equals(fruit.getColor())){
+            resultList.add(fruit);
+        }
+    }
+    return resultList;
+}
+```
+
+Fruit 인스턴스를 추출하는 조건만 다를뿐 '추출한다'라는 행위는 동일한 2개의 함수들을 하나의 함수로 합쳐보면
+
+```java
+static List<Fruit> extractFruitList(List<Fruit> fruits, Predicate<Fruit> predicate){
+    List<Fruit> resultList = new ArrayList<>();
+    for (Fruit fruit: fruits){
+        if (predicate.test(fruit)){ // 1.
+            resultList.add(fruit);
+        }
+    }
+    return resultList;
+}
+```
+
+1. 추출하는 조건만 Predicate functional interface를 통해 test 메소드를 따로 구현할 수 있도록 제공
+
+따라서 실제 호출한 내용을 살펴보면
+
+```java
+List<Fruit> fruits = Arrays.asList(new Fruit("apple", "red"), new Fruit("melon", "green"), new Fruit("banana", "yellow"))
+List<Fruit> appleList = extractFruitList(fruits, new Predicate<Fruit>(){
+    @Override
+    public boolean test(Fruit fruit){
+        return "apple".equals(fruit.getName());
+    }
+});
+
+List<Fruit> redList = extractFruitList(fruits, new Predicate<Fruit>(){
+    @Override
+    public boolean test(Fruit fruit) {
+        return "red".equals(fruit.getColor());
+    }
+});
+```
+
+각 Predicate의 구현체가 하나의 메소드(test)만 구현하고 있다. Predicate는 functional interface로 제공되는 함수형 인터페이스이다. 따라서 해당 구현체들은 다음과 같은 람다 표현식으로 표현될 수 있다.
+
+```java
+List<Fruit> appleList = extractFruitList(fruits, fruit -> "apple".equals(fruit.getName()));
+List<Fruit> redList = extractFruitList(fruits, fruit -> "red".equals(fruit.getColor()));
+```
+
+행위(함수) 자체를 파라미터로 넘기는 기법은 람다 표현식이 있기 전에도 **익명클래스**를 이용해 활용되던 기법이지만 람다 표현식을 이용해 위와 같이 극적으로 간결하게 표현할 수 있게 되었다.
 
 ---
-[Lambda Expressions in Oracle](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)
+[Lambda Expressions in Oracle](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) \
+[우리집앞마당 lambda Expression](https://multifrontgarden.tistory.com/124) \
+[투덜이의 리얼 블로그 Java 8 Lambda Expression](https://tourspace.tistory.com/6)
 
 ## 3항 연산자
 
@@ -208,7 +362,148 @@ result = (x > 0) ? x : -x   // (조건식) ? ture일 때의 값 : false 일 때�
 
 ## 연산자 우선 순위
 
+### 연산자 종류에 따른 우선순위
+
+1. 최우선연산자 ( ., [], () )
+2. 단항연산자 ( ++,--,!,~,+/-   : 부정, bit변환>부호>증감)
+3. 산술연산자 ( *,/,%,+,-,shift) < 시프트연산자 ( >>,<<,>>> ) >
+4. 비교연산자 ( >,<,>=,<=,==,!= )
+5. 비트연산자 ( &,|,,~ )
+6. 논리연산자 (&& , || , !)
+7. 삼항연산자 (조건식) ? :
+8. 대입연산자 =,*=,/=,%=,+=,-=
+
+### 항의 개수에 따른 우선순위
+
+1. 단항 연산자
+2. 이항 연산자
+3. 삼항 연산자
+
+단, 증감 연산자의 위치에 따라 우선순위가 변경될 수 있다
+
+```java
+System.out.println(  5 - 10 * 5 );  // 5 - (10 * 5) = -45
+                                    // step 1 > 10과 5의 곱
+                                    // step 2 > 5에서 50을 뺀다
+                                    // step 3 > 결과 -45를 출력한다
+
+int a = 5;
+System.out.println(++a - 5);        // 1
+                                    // 단항 연산자이면서, 전위 연산자인 ++가 먼저 연산된다
+                                    // step 1 > a에 1을 더해 a가 6이된다
+                                    // step 2 > 6인 a에서 5를 뺀다
+                                    // step 3 > 결과 6을 출력한다
+
+int a = 5;
+System.out.println(a++ - 5);        // 0
+                                    // 단항 연산자이면서, 후위 연산자인 ++가 나중에 연산된다
+                                    // step 1 > a가 5인 상태에서 a를 뺀다
+                                    // step 2 > 결과 0을 출력한다
+                                    // step 3 > a에 1을 더해 a에 6이 할당된다
+System.out.println(a);              // 6
+                                    // 위 연산으로 6이 된 a를 출력한다
+```
+
+---
+[자바의 연산자 및 우선 순위](https://toma0912.tistory.com/66) \
+[프로그래머스 자바 입문 연산자 우선순위](https://programmers.co.kr/learn/courses/5/lessons/116)
+
 ## (optional) Java 13. switch 연산자
+
+Java 12까지 쓰던 switch 문의 **break** keyword가 **yield**로 대체되었다.
+
+```java
+// Java 12까지 컴파일이 가능한 코드
+public class Java12SwitchCaseBreak {
+
+    public static void main(String[] args) {
+        getGrade('A');
+        getGrade('C');
+        getGrade('D');
+        getGrade('E');
+        getGrade('X');
+    }
+
+    public static void getGrade(char grade) {
+        System.out.print(switch (grade) {
+            case 'A':
+                break "Excellent";
+            case 'B':
+                break "Good";
+            case 'C':
+                break "Standard";
+            case 'D':
+                break "Low";
+            case 'E':
+                break "Very Low";
+            default:
+                break "Invalid";
+        });
+
+        System.out.println(getResult(grade));
+    }
+
+    public static String getResult(char grade) {
+        return switch (grade) {
+            case 'A', 'B', 'C':
+                break "::Success";
+            case 'D', 'E':
+                break "::Fail";
+            default:
+                break "::No result";
+        };
+    }
+}
+```
+
+```java
+// break 대신 yield를 사용하는 Java 13의 switch 문
+public class Java13SwitchCaseBreak {
+
+    public static void main(String[] args) {
+        getGrade('A');
+        getGrade('C');
+        getGrade('D');
+        getGrade('E');
+        getGrade('X');
+    }
+
+    public static void getGrade(char grade) {
+        System.out.print(switch (grade) {
+            case 'A': yield "Excellent";
+            case 'B': yield "Good";
+            case 'C': yield "Standard";
+            case 'D': yield "Low";
+            case 'E': yield "Very Low";
+            default: yield "Invalid";
+        });
+
+        System.out.println(getResult(grade));
+    }
+
+    public static String getResult(char grade) {
+        return switch (grade) {
+            case 'A', 'B', 'C' -> "::Success";
+            case 'D', 'E' -> "::Fail";
+            default -> "::No result";
+        };
+    }
+}
+```
+
+break은 yield로 대체 되었으나, 화살표 연산자(->)는 콜론(:)과 함께 Java 12와 마찬가지로 그대로 쓸 수 있다
+
+```java
+return switch (grade) {
+    case 'A', 'B', 'C' -> "::Success";
+    case 'D', 'E' -> "::Fail";
+    default -> "::No result";
+};
+```
+
+---
+[Java 13, Switch Expressions(JEP 354)](https://www.dariawan.com/tutorials/java/java-13-switch-expressions-jep-354/) \
+[Java 13 Enhanced Switch](https://medium.com/@harshavardhan_reddy/java-13-enhanced-switch-3d22b001ee0d)
 
 ---
 [W3School operators](https://www.w3schools.com/java/java_operators.asp) \
