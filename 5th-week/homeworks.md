@@ -4,6 +4,8 @@
 
 ## int 값을 가지고 있는 이진 트리를 나타내는 Node 라는 클래스를 정의하세요
 
+[Node class code](https://github.com/kjw217/whiteship-live-study/blob/master/5th-week/ClassStudy/src/main/java/ClassStudy/Tree/Node.java)
+
 1. `int value`, `Node left`, `Node right`를 가진다.
    - `value`: 노드가 가지고 있는 값을 나타낸다.
    - `left`: 노드의 왼쪽 자식 노드를 나타낸다.
@@ -15,6 +17,9 @@
 
 ## BinrayTree라는 클래스를 정의하고 주어진 노드를 기준으로 출력하는 bfs(Node node)와 dfs(Node node) 메소드를 구현하세요
 
+[Binary tree class code](https://github.com/kjw217/whiteship-live-study/blob/master/5th-week/ClassStudy/src/main/java/ClassStudy/Tree/BinaryTree.java) \
+[Binary tree test code](https://github.com/kjw217/whiteship-live-study/blob/master/5th-week/ClassStudy/src/test/java/ClassStudy/BinaryTreeTest.java)
+
 BinaryTree
 
 1. 트리의 시작점인 `Node root`를 변수로 가진다.
@@ -22,6 +27,10 @@ BinaryTree
 3. 노드의 `value` 값의 중복을 허용하지 않는다.
 
 DFS와 BFS 메소드는 값을 출력하는 대신 배열을 반환하도록 하여 테스트에 용이하게 하였다.
+
+### `public void addNode(Node node)` 메소드
+
+테스트의 편의를 위해 트리에 노드를 추가할 수 있는 메소드를 구현하였다. 해당 메소드를 통해 각 노드의 `value` 값을 기준으로 각 노드는 왼쪽부터 오름차순으로 정렬되어 트리가 형성된다.
 
 ### DFS
 
