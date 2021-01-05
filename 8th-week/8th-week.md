@@ -20,23 +20,55 @@
         // declare constant fields
         // declare methods that abstract by default.
     }
-
-    class <class_name> implements <interface_name> {
-        // all of the methods in interface is implemented.
-    }
     ```
-
-    1. `interface` 키워드로 선언한다.
-    2. 인터페이스 내에 선언된 모든 메소드는 empty body를 가지는 추상 메소드이며, `public`으로 선언된다.
-    3. 모든 필드는 `public`, `static`과 `final`으로 선언될 수 있다.
-    4. 인터페이스를 구현하는 클래스는 반드시 **인터페이스 내의 모든 메소드를 구현**해야 한다.
 
 ---
 [Interfaces in Java - GeeksforGeeks](https://www.geeksforgeeks.org/interfaces-in-java/)
 
 ## 인터페이스 구현하는 방법
 
+```java
+class <class_name> implements <interface_name> {
+    // all of the methods in interface is implemented.
+}
+```
+
+1. `interface` 키워드로 선언한다.
+2. 인터페이스 내에 선언된 모든 메소드는 empty body를 가지는 추상 메소드이며, `public`으로 선언된다.
+3. 모든 필드는 `public`, `static`과 `final`으로 선언될 수 있다.
+4. 인터페이스를 구현하는 클래스는 반드시 **인터페이스 내의 모든 메소드를 구현**해야 한다.
+
+---
+[Interfaces in Java - GeeksforGeeks](https://www.geeksforgeeks.org/interfaces-in-java/)
+
 ## 인터페이스 레퍼런스를 통해 구현체를 사용하는 방법
+
+1. 인터페이스 타입의 reference variable을 선언할 수 있다. (인터페이스를 구현하는 클래스만 가능하다.)
+
+    ```java
+    interface Vehicle {
+        void move();
+    }
+
+    class car implements Vehicle {
+        public void move(){
+            System.out.println("move with wheels");
+        }
+    }
+
+    static public void main(String[] args){
+        Vehicle car = new car();
+    }
+    ```
+
+2. 인터페이스를 구현하는 인스턴스의 참조 타입을 인터페이스로 변환할 수 있다.
+
+    ```java
+    static public void main(String[] args){
+        Vehicle car = new car();
+        Vehicle v = (Vehicle) car;
+    }
+    ```
 
 ## 인터페이스 상속
 
