@@ -80,7 +80,44 @@ https://www.nextree.co.kr/p3239/
 
 ## 자바가 제공하는 예외 계층 구조
 
+![자바 계층 구조](https://www.nextree.co.kr/content/images/2021/01/Exception-Class.png)
 
+[그림 참조 - 예외 처리에 대한 작은 생각 by nextree](https://www.nextree.co.kr/p3239/)
+
+그림에서 볼 수 있듯이 Exception과 Error는 모두 `Throwable` 클래스를 상속한다. 여기서 `Throwable` 인터페이스를 구현하는 것이 아닌 **클래스**를 상속한다는 것을 알 수 있었다. 그렇다면 `Throwable`의 멤버를 Exception과 Error 클래스가 상속 받아 사용한다는 것 또한 알 수 있다.
+
+### Throwable 클래스
+
+Oracle의 자바 api 문서에 따르면 Throwable 클래스는 모든 Error와 Exception의 *superclass*라는 설명으로 Throwable과 이를 상속하는 클래스의 특징을 설명한다.
+
+1. Throwable 클래스나 이를 상속하는 클래스의 **인스턴스 객체**만이 JVM에 의해 **던져지며**, 자바의 `throw` 선언을 통해 **던져질** 수 있다.
+2. Throwable 클래스나 이를 상속하는 클래스 만이 `catch` 절에서 **인자**로 쓰일 수 있다.
+
+#### members of Throwable
+
+##### 생성자
+
+기본적으로는 `Throwable()`이며 인자로 `String message`나 `Throwable cause` 등을 넘겨 인스턴스를 생성할 수 있다.
+
+##### 메소드
+
+| Modifier and Type | Method | Description |
+|---|---|---|
+| `void` | `addSuppressed​(Throwable exception)` | Appends the specified exception to the exceptions that were suppressed in order to deliver this exception. |
+| `Throwable` | `fillInStackTrace()` | Fills in the execution stack trace. |
+| `Throwable` | `getCause()` | 해당 Throwable의 cause인 Throwable 인스턴스나 null(원인을 모를 경우)을 반환한다. |
+| `String` | `getMessage()` | 해당 Throwable 인스턴스의 상세 메시지를 반환한다. |
+| `StackTraceElement[]` | `getStackTrace()` | `printStackTrace()`에 호출되는 스택을 반환한다. |
+| `Throwable[]` | `getSuppressed()` | Throwable 인스턴스에 `addSuppressed()`된 모든 Exception으로 이루어진 array를 반환한다. |
+|`Throwable` | `initCause​(Throwable cause)` | 특정한 cause 인자를 넘겨 해당 Throwable 인스턴스의 cause를 초기화 한다. |
+| `void` | `printStackTrace()` | Prints this throwable and its backtrace to the standard error stream. |
+| `void` | `printStackTrace​(PrintStream s)` | Prints this throwable and its backtrace to the specified print stream. |
+| `void` | `printStackTrace​(PrintWriter s)` | Prints this throwable and its backtrace to the specified print writer. |
+| `void` | `setStackTrace​(StackTraceElement[] stackTrace)` | Sets the stack trace elements that will be returned by getStackTrace() and printed by printStackTrace() and related methods. |
+| `String` | `toString()` | Returns a short description of this throwable. |
+
+---
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Throwable.html
 
 ## Exception과 Error의 차이는?
 
@@ -117,4 +154,15 @@ https://www.nextree.co.kr/p3239/
 
 ## 커스텀한 예외 만드는 방법
 
+커스텀 예외 클래스에서 `Exception` 클래스를 상속해 생성자에서 `super()`를 호출해 커스텀 예외의 `String message`와 `Throwable cause` 등을 초기화 시킬 수 있다. 그리고 예외 클래스의 자체적인 메소드 또한 선언할 수 있다.
+
+```java
+class MyException extends Exception{
+    MyException(String msg){// 문자열을 매개변수로 받는 생성자
+        super(msg);// 조상인 Exception 클래스의 생성자를 호출한다.
+    }
+}
+```
+
 ---
+[장인개발자를 꿈꾸는 :: 기록하는 공간](https://devbox.tistory.com/entry/Java-예외-만들기)
