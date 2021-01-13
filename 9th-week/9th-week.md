@@ -1,14 +1,14 @@
 # 학습할 것
 
-[자바에서 예외 처리 방법 (try, catch, throw, throws, finally)]()
+[자바에서 예외 처리 방법 (try, catch, throw, throws, finally)](https://github.com/kjw217/whiteship-live-study/blob/master/9th-week/9th-week.md#%EC%9E%90%EB%B0%94%EC%97%90%EC%84%9C-%EC%98%88%EC%99%B8-%EC%B2%98%EB%A6%AC-%EB%B0%A9%EB%B2%95-try-catch-throw-throws-finally)
 
-[자바가 제공하는 예외 계층 구조]()
+[자바가 제공하는 예외 계층 구조](https://github.com/kjw217/whiteship-live-study/blob/master/9th-week/9th-week.md#%EC%9E%90%EB%B0%94%EA%B0%80-%EC%A0%9C%EA%B3%B5%ED%95%98%EB%8A%94-%EC%98%88%EC%99%B8-%EA%B3%84%EC%B8%B5-%EA%B5%AC%EC%A1%B0)
 
-[Exception과 Error의 차이는?]()
+[Exception과 Error의 차이는?](https://github.com/kjw217/whiteship-live-study/blob/master/9th-week/9th-week.md#exception%EA%B3%BC-error%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%8A%94)
 
-[RuntimeException과 RE가 아닌 것의 차이는?]()
+[RuntimeException과 RE가 아닌 것의 차이는?](https://github.com/kjw217/whiteship-live-study/blob/master/9th-week/9th-week.md#runtimeexception%EA%B3%BC-re%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B2%83%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%8A%94)
 
-[커스텀한 예외 만드는 방법]()
+[커스텀한 예외 만드는 방법](https://github.com/kjw217/whiteship-live-study/blob/master/9th-week/9th-week.md#%EC%BB%A4%EC%8A%A4%ED%85%80%ED%95%9C-%EC%98%88%EC%99%B8-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95)
 
 ## 자바에서 예외 처리 방법 (try, catch, throw, throws, finally)
 
