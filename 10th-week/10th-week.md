@@ -61,11 +61,38 @@ https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Thread.ht
 
 ## 쓰레드의 상태
 
+쓰레드는 다음과 같은 상태를 얻을 수 있다.
+
+- 객체 생성(NEW): 쓰레드 객체가 생성된 상태. `start()` 메소드는 호출되지 않은 상태
+- 실행 대기(RUNNABLE): 실행을 언제든지 할 수 있는 상태
+- 일시 정지
+  - WAITING: 다른 쓰레드가 통지할 때까지 기다리는 상태
+  - TIMED_WAITING: 주어진 시간 동안 기다리는 상태
+  - BLOCKED: 사용하고자 하는 객체의 락이 풀릴 떄까지 기다리는 상태
+- 종료(TERMINATED): 실행을 마친 상태
+
 ---
 https://widevery.tistory.com/27 \
 https://wonjerry.tistory.com/13 \
 
 ## 쓰레드의 우선순위
+
+> 자바의 쓰레드 스케줄링은 우선순위 방식과 순환 할당 방식을 사용해 쓰레드의 실행을 관리한다.
+
+쓰레드의 우선순위를 관리하기 위해 `Thread` 클래스는 다음과 같은 멤버를 가진다.
+
+- `void setPriority(int new Priority)`
+- `int getPriority()`
+- `public static final int MAX_PRIORITY = 10`
+- `public static final int MIN_PRIORITY = 1`
+- `public static final int NORM_PRIORITY = 5`
+
+위 두개의 메소드를 통해 쓰레드위 우선순위의 값을 매기고 가져올 수 있다. 또한 아래 3개의 상수를 통해 쓰레드 우선순위의 최대값과 최소값이 10과 1이라는 것을 알 수 있으며, 우선순위가 별도로 부여되지 않은 쓰레드의 경우에는 `NORM_PRIORITY`를 갖는 다는 걸 알 수 있다.
+
+---
+https://devbox.tistory.com/entry/Java-%EC%93%B0%EB%A0%88%EB%93%9C%EC%9D%98-%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84 \
+https://deftkang.tistory.com/56 \
+https://docs.oracle.com/en/java/javase/11/docs/api/constant-values.html#java.lang.Thread.MAX_PRIORITY
 
 ## Main 쓰레드
 
