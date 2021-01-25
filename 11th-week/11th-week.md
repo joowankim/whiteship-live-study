@@ -1,9 +1,13 @@
 # 학습할 것 (필수)
 
-[enum 정의하는 방법]() \
-[enum이 제공하는 메소드 (values()와 valueOf())]() \
-[java.lang.Enum]() \
-[EnumSet]()
+- [학습할 것 (필수)](#학습할-것-필수)
+  - [Enum이란](#enum이란)
+  - [Java에서 Enum이란](#java에서-enum이란)
+  - [enum 정의하는 방법](#enum-정의하는-방법)
+    - [enum의 생성자](#enum의-생성자)
+  - [enum이 제공하는 메소드 (values()와 valueOf())](#enum이-제공하는-메소드-values와-valueof)
+  - [java.lang.Enum](#javalangenum)
+  - [EnumSet](#enumset)
 
 ## Enum이란
 
@@ -249,12 +253,12 @@ Enum이란 Enumeration의 앞 글자를 의미해 '열거'라는 의미를 지�
 
 ```java
 enum Day {
-    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
 }
 
 enum Month {
     JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE,
-    JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+    JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
 }
 
 public class EnumExample {
@@ -318,7 +322,40 @@ public enum Planet {
 
 ## enum이 제공하는 메소드 (values()와 valueOf())
 
+enum이 제공하는 메소드들을 알아보기 위해 oracle의 java api 문서를 검색해보았다. `Object` 클래스의 메소드를 오버라이드한 메소드를 제외한 메소드들을 다음과 같이 추려보았다.
+
+| Modifier and Type | Method | Description |
+|---|---|---|
+| `int` | `ordinal()` | enum 클래스에 선언된 순번을 반환한다. |
+| `static <T extends Enum<T>> T` | `valueOf(Class<T> enumType, String name)` | `name` 파라미터로 전달되는 이름의 enum 상수를 반환한다. |
+
+java api 문서의 All Methods 항목의 표에서 볼 수 있었던 것은 위 `Object` 클래스의 메소드를 오버라이드 하거나 wrapping 한 것을 제외하면 위 2개 뿐이었다. 그렇다면 `values()`는 어디서 찾아볼 수 있을까?
+
+`valueOf()`의 [details](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Enum.html#valueOf(java.lang.Class,java.lang.String))에서 찾을 수 있었다. `values()`에 대한 설명은 간단했다. `valueOf()`가 특정한 하나의 enum 상수를 반환하지만 `values()`는 전체 상수들을 array 형태로 반환할 수 있다고 한다.
+
+| Modifier and Type | Method | Description |
+|---|---|---|
+| `static T[]` | `values()` | enum 타입의 모든 상수를 반환한다. |
+
+---
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Enum.html#%3Cinit%3E(java.lang.String,int)
+
 ## java.lang.Enum
+
+```java
+public abstract class Enum<E extends Enum<E>> implements Serializable, Comparable<E>
+```
+
+위 선언은 오라클의 java api 문서에서 볼 수 있다. 하나씩 살펴보자.
+
+1. `E`는 enum type의 서브클래스를 말한다.
+2. 추상 클래스이다.
+3. `Comparable<E>`을 구현하고 있다.
+4. `Serializable`을 구현하고 있다.
+
+---
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Enum.html#%3Cinit%3E(java.lang.String,int) \
+https://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.9
 
 ## EnumSet
 
@@ -329,4 +366,3 @@ https://woowabros.github.io/tools/2017/07/10/java-enum-uses.html \
 http://www.tcpschool.com/java/java_api_enum \
 https://velog.io/@kyle/%EC%9E%90%EB%B0%94-Enum-%EA%B8%B0%EB%B3%B8-%EB%B0%8F-%ED%99%9C%EC%9A%A9 \
 https://www.nextree.co.kr/p11686/ \
-
