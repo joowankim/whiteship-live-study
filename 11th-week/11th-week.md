@@ -8,6 +8,8 @@
   - [enum이 제공하는 메소드 (values()와 valueOf())](#enum이-제공하는-메소드-values와-valueof)
   - [java.lang.Enum](#javalangenum)
   - [EnumSet](#enumset)
+    - [멀티 쓰레드 환경에서 사용될 경우 다른 Collection과 같은 이슈를 가질 수 있다](#멀티-쓰레드-환경에서-사용될-경우-다른-collection과-같은-이슈를-가질-수-있다)
+    - [EnumSet은 내부적으로 **bit vector**로 표현된다](#enumset은-내부적으로-bit-vector로-표현된다)
 
 ## Enum이란
 
@@ -359,6 +361,19 @@ https://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.9
 
 ## EnumSet
 
+enum을 사용한 Set의 구현체다. EnumSet이 생성될 때, 한 가지의 enum 타입만 원소로 가질 수 있다.
+
+1. `iterator()` 메소드에서 반환되는 iterator는 각 원소가 선언된 순서로 모든 원소를 탐색한다.
+2. `null`은 원소로 받지 않는다. EnumSet에 null을 원소로 넣으려고 시도할 경우 `NullPointerException`이 발생한다.
+3. EnumSet의 iterator의 경우 iteration이 진행되는 도중에는 `ConcurrentModificationException`을 던지지 않는다.
+
+### 멀티 쓰레드 환경에서 사용될 경우 다른 Collection과 같은 이슈를 가질 수 있다
+
+EnumSet은 멀티 쓰레딩 환경에서 consistency를 지키기 어려울 수 있다. 따라서 오라클의 java api 문서에서는 몇몇 객체와 함께 자연스럽게 synchronized되거나 그런 객체가 없을 경우 `Collections.synchronizedSet(java.util.Set<T>)`으로 **wrapping**하여 사용하는 것을 제안하고 있다.
+
+### EnumSet은 내부적으로 **bit vector**로 표현된다
+
+비트 필드를 이용하면 합집합이나 교집합과 같은 집합 연산을 효율적으로 수행할 수 있다. 그리고 EnumSet은 내부적으로 bit vector로 표현되기 때문에 하나의 enum type에서 추출한 집합 값을 효율적으로 나타내고 연산할 수 있다. 만일, enum 타입이 64개 이하 요소라면, 그 EnumSet 전체가 하나의 long 타입으로 표현될 수 있는 것이다.
 
 ---
 https://velog.io/@ljinsk3/Enum%EC%9C%BC%EB%A1%9C-%EB%8B%A4%ED%98%95%EC%84%B1%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95 \
@@ -366,3 +381,4 @@ https://woowabros.github.io/tools/2017/07/10/java-enum-uses.html \
 http://www.tcpschool.com/java/java_api_enum \
 https://velog.io/@kyle/%EC%9E%90%EB%B0%94-Enum-%EA%B8%B0%EB%B3%B8-%EB%B0%8F-%ED%99%9C%EC%9A%A9 \
 https://www.nextree.co.kr/p11686/ \
+https://aroundck.tistory.com/3140
