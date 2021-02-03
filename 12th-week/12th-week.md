@@ -18,6 +18,7 @@
 			- [1.8 이후에 추가된 것들](#18-이후에-추가된-것들)
 			- [Java 9 이후에 추가된 것](#java-9-이후에-추가된-것)
 	- [@documented](#documented)
+		- [Oracle 문서에 있는 `@Override` 설명](#oracle-문서에-있는-override-설명)
 	- [애노테이션 프로세서](#애노테이션-프로세서-1)
 
 ## Java annotation이란
@@ -318,6 +319,34 @@ https://kephilab.tistory.com/55
 
 ## @documented
 
-javadoc으로 문서 생성 시 현재 어노테이션에 대한 설명을 추가한다.
+`@Documented` 어노테이션이 선언된 어노테이션을 사용하는 Element는 javadoc과 같은 도구를 사용할 때에 해당 어노테이션의 설명이 포함되어 Element의 설명과 함께 공개된다.
+
+직접 코드 선언을 보자
+
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface Documented {
+}
+```
+
+1. `RetentionPolicy.RUNTIME` 인자를 가진 `@Retention` 어노테이션이 선언되어 있어 `RUNTIME`까지 `@Documented` 어노테이션의 정보를 메모리에 유지한다.
+2. `@Documented` 어노테이션은 `ElementType.ANNOTATION_TYPE`에만 적용이 가능하다.
+
+### Oracle 문서에 있는 `@Override` 설명
+
+다음 사진은 실제로 `@Override` 어노테이션에 대한 설명에 `@Documented` 어노테이션이 붙은 `@Target`과 `@Retention` 어노테이션이 같이 포함되어 있는 모습이다.
+
+![@Override](Override_java_api.png)
+
+---
+https://docs.oracle.com/javase/10/docs/api/java/lang/Override.html
 
 ## 애노테이션 프로세서
+
+애노테이션이 붙어있는 클래스의 정보를 트리구조로 참조할 수 있다. 소스코드의 AST를 조작한다.
+
+- 공개된 API가 아닌 **컴파일러 내부 클래스**를 사용해 코드를 조작한다.
+
+컴파일타임에 어떻게 코드를 만들어 낼 수 있는가
