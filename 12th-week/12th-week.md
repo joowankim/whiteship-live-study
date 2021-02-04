@@ -4,13 +4,9 @@
 	- [Java annotation이란](#java-annotation이란)
 		- [메타데이터](#메타데이터)
 		- [어노테이션의 기능](#어노테이션의-기능)
-	- [리플렉션?](#리플렉션)
-	- [롬복?](#롬복)
-		- [애노테이션 프로세서](#애노테이션-프로세서)
 	- [애노테이션 정의하는 방법](#애노테이션-정의하는-방법)
 	- [@retention](#retention)
 		- [`RetentionPolicy`](#retentionpolicy)
-			- [be read reflectively?](#be-read-reflectively)
 		- [`RetentionPolicy`에 따른 어노테이션의 차이점 확인하기](#retentionpolicy에-따른-어노테이션의-차이점-확인하기)
 	- [@target](#target)
 		- [ElementType 클래스](#elementtype-클래스)
@@ -19,9 +15,7 @@
 			- [Java 9 이후에 추가된 것](#java-9-이후에-추가된-것)
 	- [@documented](#documented)
 		- [Oracle 문서에 있는 `@Override` 설명](#oracle-문서에-있는-override-설명)
-	- [애노테이션 프로세서](#애노테이션-프로세서-1)
-		- [Processor APIs](#processor-apis)
-			- [AbstractProcessor](#abstractprocessor)
+	- [애노테이션 프로세서](#애노테이션-프로세서)
 
 ## Java annotation이란
 
@@ -39,18 +33,6 @@
 
 ---
 https://coding-factory.tistory.com/575
-
-## 리플렉션?
-
-## 롬복?
-
-### 애노테이션 프로세서
-
-애노테이션이 붙어있는 클래스의 정보를 트리구조로 참조할 수 있다. 소스코드의 AST를 조작한다.
-
-- 공개된 API가 아닌 **컴파일러 내부 클래스**를 사용해 코드를 조작한다.
-
-컴파일타임에 어떻게 코드를 만들어 낼 수 있는가
 
 ## 애노테이션 정의하는 방법
 
@@ -119,8 +101,6 @@ public enum RetentionPolicy {
 	- `SOURCE`: 컴파일 단계에서 어노테이션이 사라진다.
 	- `CLASS`: .class 파일까지 어노테이션이 유지되지만 Runtime엔 사라진다. (별도의 `@Retention` 선언이 없는 어노테이션은 해당 `RetentionPolicy`가 default로 부여된다.)
 	- `RUNTIME`: .class 파일에도 기록이되며 런타임에도 읽을 수 있다.
-
-#### be read reflectively?
 
 ### `RetentionPolicy`에 따른 어노테이션의 차이점 확인하기
 
@@ -266,6 +246,7 @@ https://sas-study.tistory.com/329
 ## @target
 
 어노테이션을 적용할 대상을 지정할 때 사용한다.
+
 ```java
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -351,17 +332,8 @@ https://docs.oracle.com/javase/10/docs/api/java/lang/Override.html
 
 - 공개된 API가 아닌 **컴파일러 내부 클래스**를 사용해 코드를 조작한다.
 
-컴파일타임에 어떻게 코드를 만들어 낼 수 있는가
-
 소스코드 레벨에서 소스코드에 붙어있는 애노테이션 정보를 읽어서 컴파일러가 컴파일 중에 새로운 소스코드 생성이나 기존의 코드 변경, 리소스 파일 생성 등의 행동을 할 수 있는 기능을 말한다.
 
-어노테이션 프로세싱은 컴파일 시간에 어노테이션들을 스캐닝하고 프로세싱하는 javac 에 속한 빌드툴입니다.
-
-### Processor APIs
-
-#### AbstractProcessor
-
-모든 프로세서들은 `AbstractProcessor`를 상속받아야 한다.
 
 ---
 https://medium.com/@jason_kim/annotation-processing-101-%EB%B2%88%EC%97%AD-be333c7b913
