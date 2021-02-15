@@ -9,6 +9,8 @@
     - [InputStream](#inputstream)
     - [OutputStream](#outputstream)
   - [Byte와 Character 스트림](#byte와-character-스트림)
+    - [Byte Streams](#byte-streams)
+    - [Character Streams](#character-streams)
   - [표준 스트림 (System.in, System.out, System.err)](#표준-스트림-systemin-systemout-systemerr)
   - [파일 읽고 쓰기](#파일-읽고-쓰기)
 
@@ -76,6 +78,34 @@ https://coding-factory.tistory.com/281
 
 ## Byte와 Character 스트림
 
+### Byte Streams
+
+바이트(8-bit) 단위의 데이터를 처리한다. 즉, `ByteStream` 클래스는 바이트 데이터를 읽고/쓴다. 이를 이용해 다양한 데이터를 저장할 수 있다.(e.g. character, video, audio, image and etc)
+
+Java에서는 Byte streams를 다루기 위한 클래스로 `InputStream`과 `OutputStream` 추상클래스를 상속한 다양한 클래스를 제공한다.
+
+### Character Streams
+
+16-bit Unicode로 데이터를 처리한다. 그렇기 때문에 텍스트 데이터만 처리가 가능하다.
+
+Java에서는 Character Streams를 다루기 위한 클래스로 `Reader`와 `Writer` 추상클래스를 상속한 다양한 클래스를 제공한다.
+
+---
+https://www.tutorialspoint.com/difference-between-the-byte-stream-and-character-stream-classes-in-java
+
 ## 표준 스트림 (System.in, System.out, System.err)
 
+Java는 콘솔과 같은 표준 입출력 장치를 위해 `System`이라는 표준 입출력 클래스를 정의하고 있다. `java.lang` 패키지에 포함되어 있는 `System` 클래스는 아래의 클래스 변수를 제공한다.
+
+| 클래스 변수 | 입출력 스트림 | 설명 |
+|---|---|---|
+| `System.in` | `InputStream` | 콘솔로부터 데이터를 입력받는다. |
+| `System.out` | `PrintStream` | 콘솔로 데이터를 출력한다. |
+| `System.err` | `PrintStream` | 콘솔로 데이터를 출력한다. |
+
+---
+http://www.tcpschool.com/java/java_io_file
+
 ## 파일 읽고 쓰기
+
+
