@@ -108,4 +108,29 @@ http://www.tcpschool.com/java/java_io_file
 
 ## 파일 읽고 쓰기
 
+[simple-markdown-converter-with-flexmark-java](https://github.com/kjw217/simple-markdown-converter-with-flexmark-java)
 
+그냥 파일을 읽고 쓰는 걸로 간단한 예제만 돌려보는 건 억지로 하는 느낌만 들것 같아서 자주 사용하는 `.md`파일을 `.html`로 변환하는 웹 어플리케이션을 만들어볼 생각을 하게 되었다. 그 와중에 같이 공부하고 있는 kotlin으로 java와 비교해가며 만들어보는 것도 재밌는 경험이 될 것 같아 kotlin으로 만들기로 결정했다.
+
+개요
+
+1. 같이 공부중인 kotlin으로 구현 -> 라이브러리는 java.io를 그대로 사용하기에 파일 read/write 부분은 java를 사용한다고 생각
+2. `.md` 파일을 업로드하면 `.html`로 변환한 페이지를 보여주는 간단한 웹 어플리케이션
+
+흥미로웠던 점
+
+1. kotlin의 `use`는 resource 하나에 대해서만 다룰 수 있는 건가 -> 여러개를 사용할 땐 java의 try-with-resources가 더 깔끔해 보일거 같다.
+
+아쉬운 점
+
+1. 휴가라도 낼걸 그랬나
+
+보완할 점
+
+1. .md 파일인지 검증하기
+2. 다양한 file read/write 사용하기
+3. file read/write type 마다 성능적인 차이 비교하기
+4. flexmark-java 라이브러리를 조금 더 공부해 하드 코드 없애기
+
+---
+https://blog.naver.com/PostView.nhn?blogId=horajjan&logNo=221568409591&from=search&redirect=Log&widgetTypeCall=true&directAccess=false
